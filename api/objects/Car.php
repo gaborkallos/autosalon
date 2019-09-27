@@ -18,8 +18,11 @@ class Car
     }
 
     function read_all(){
-        return $this->conn->prepare ("SELECT * FROM " . $this->table_name . " c
-                    LEFT JOIN employee ON c.administrator = id;")->execute();
+        $query = "SELECT * FROM " . $this->table_name . " c
+                    LEFT JOIN employee ON c.administrator = id;";
+        $stmt = $this->conn->pg_prepare($query);
+        $stmt-> execute();
+        return $stmt;
     }
 
 }
