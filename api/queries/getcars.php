@@ -7,10 +7,10 @@ include_once '../config/database.php';
 include_once '../objects/Car.php';
 
 $database = new Database();
-$conn = $database->getConnection();
+$conn = $database->getConn();
 $car = new Car($conn);
 
-$stmt = $car->read_all();
+$stmt = $car->get_all();
 $number_of_cars = $stmt->rowCount();
 
 if($number_of_cars>0){

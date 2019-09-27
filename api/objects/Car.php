@@ -17,7 +17,7 @@ class Car
         $this->conn = $conn;
     }
 
-    function read_all(){
+    function get_all(){
         $query = "SELECT * FROM " . $this->table_name . " c
                     LEFT JOIN employee ON c.administrator = id;";
         $stmt = $this->conn->pg_prepare($query);
