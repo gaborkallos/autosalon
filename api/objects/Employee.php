@@ -6,10 +6,10 @@ class Employee
     private $conn;
     private $table_name = "employee";
 
-    public int $id;
-    public string $name;
-    public string $username;
-    public string $password;
+    public $id;
+    public $name;
+    public $username;
+    public $password;
 
     public function __construct($conn)
     {

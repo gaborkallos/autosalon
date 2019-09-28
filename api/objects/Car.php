@@ -18,8 +18,8 @@ class Car
     }
 
     function get_all(){
-        $query = "SELECT * FROM cars
-                    JOIN employee e on cars.administrator = e.id;";
+        $query = "SELECT * FROM cars AS c
+                    JOIN employee e on c.administrator = e.id";
         $stmt = $this->conn->prepare($query);
         $stmt-> execute();
         return $stmt;

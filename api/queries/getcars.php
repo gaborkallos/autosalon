@@ -25,7 +25,11 @@ if($number_of_cars>0){
             "model" => $model,
             "year_of_manufacture" => $year_of_manufacture,
             "price" => $price,
-            "administrator" => $administrator
+            "administrator" => $new_employee=array(
+                "id" => $id,
+                "name" => $name,
+                "username" => $username
+            )
         );
         array_push($cars["records"], $newCar);
     }
