@@ -17,11 +17,22 @@ class Car
         $this->conn = $conn;
     }
 
-    function get_all(){
+    function get_all()
+    {
         $query = "SELECT * FROM cars AS c
                     JOIN employee e on c.administrator = e.id";
         $stmt = $this->conn->prepare($query);
-        $stmt-> execute();
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function get_cars_by_admin($id)
+    {
+        $query = "SELECT * FROM cars AS c
+                    JOIN employee e on c.administrator = e.id
+                    WHERE e.id = ". $id ."; ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
         return $stmt;
     }
 
