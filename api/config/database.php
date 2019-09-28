@@ -8,7 +8,7 @@ class Database
 
     public function __construct()
     {
-        $this->conn = new PDO("psql:host=localhost;dbname=" . $this->db_name, 'postgres', '547725'
+        $this->conn = new PDO("pgsql:host=localhost;dbname=" . $this->db_name, 'postgres', '547725'
         );
         echo "Connection SUCCESS!";
     }

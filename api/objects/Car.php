@@ -18,9 +18,9 @@ class Car
     }
 
     function get_all(){
-        $query = "SELECT * FROM " . $this->table_name . " c
-                    LEFT JOIN employee ON c.administrator = id;";
-        $stmt = $this->conn->pg_prepare($query);
+        $query = "SELECT * FROM cars
+                    JOIN employee e on cars.administrator = e.id;";
+        $stmt = $this->conn->prepare($query);
         $stmt-> execute();
         return $stmt;
     }
