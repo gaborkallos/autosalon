@@ -1,8 +1,8 @@
 <?php
 
-
 include_once '../config/database.php';
 include_once '../objects/Car.php';
+include_once '../queries/car_queries.php';
 
 $database = new Database();
 $conn = $database->getConnection();
@@ -11,45 +11,54 @@ $car = new Car($conn);
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
-
-    $stmt = $car->get_all();
+    $stmt = get_all();
     get_results($stmt);
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //TODO: code here the POST request
     $json = file_get_contents('php://input');
     if ($json != null) {
         http_response_code(200);
         $arr = json_decode($json, true);
-        foreach($arr as $key=>$value){
-            $stmt = $car->get_cars_by_admin($value);
-            get_results($stmt);
+        foreach ($arr as $key => $value) {
+            $stmt = get_cars($key, $value);
+            if ($stmt != false) {
+                get_results($stmt);
+            } else {
+                forbidden();
+            }
         }
     } else {
-        http_response_code(403);
-        header('HTTP/1.0 403 Forbidden');
-        echo json_encode(
-            array("message" => "Forbidden")
-        );
+        forbidden();
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    $json = file_get_contents('php://input');
+    if ($json != null) {
+        $car = json_decode($json);
+        insert_car($car);
+        $stmt = get_all();
+        get_results($stmt);
+    } else {
+        forbidden();
     }
 
-} elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    //TODO: code here the PUT request
-    echo "I got a PUT!";
-
 } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    //TODO: code here the DELETE request
-    echo "I got a DELETE!";
-
+    $json = file_get_contents('php://input');
+    if ($json != null) {
+        http_response_code(200);
+        $arr = json_decode($json, true);
+        foreach ($arr as $key => $value) {
+            delete_car($value);
+            $stmt = get_all();
+            get_results($stmt);
+        }
+    }else{
+        forbidden();
+    }
 } else {
-    //TODO: code here OTHER requests
-    http_response_code(403);
-    header('HTTP/1.0 403 Forbidden');
-    echo json_encode(
-        array("message" => "Forbidden")
-    );
+    forbidden();
 }
 
-function get_results($stmt){
+function get_results($stmt)
+{
     $number_of_cars = $stmt->rowCount();
 
     if ($number_of_cars > 0) {
@@ -75,7 +84,15 @@ function get_results($stmt){
     } else {
         http_response_code(404);
         echo json_encode(
-            array("message" => "No cars available!")
+            array("message" => "No cars are available!")
         );
     }
 }
+
+function forbidden()
+{
+    http_response_code(403);
+    header('HTTP/1.0 403 Forbidden');
+    echo json_encode(array("message" => "Forbidden"));
+}
+
