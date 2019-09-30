@@ -32,7 +32,6 @@ function get_results($stmt)
 
     if ($number_of_employee > 0) {
         $employees = array();
-        $employees["records"] = array();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
             $newEmployee = array(
@@ -44,7 +43,7 @@ function get_results($stmt)
                     "email" => $email,
                     "phone" => $phone,)
             );
-            array_push($employees["records"], $newEmployee);
+            array_push($employees, $newEmployee);
         }
         http_response_code(200);
         echo json_encode($employees);

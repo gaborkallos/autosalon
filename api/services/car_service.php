@@ -66,7 +66,7 @@ function get_results($stmt)
 
     if ($number_of_cars > 0) {
         $cars = array();
-        $cars["records"] = array();
+//        $cars["records"] = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
@@ -80,7 +80,7 @@ function get_results($stmt)
                     "name" => $name,
                 )
             );
-            array_push($cars["records"], $newCar);
+            array_push($cars, $newCar);
         }
         http_response_code(200);
         echo json_encode($cars);
