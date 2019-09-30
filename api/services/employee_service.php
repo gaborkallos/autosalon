@@ -7,9 +7,11 @@ $database = new Database();
 $conn = $database->getConnection();
 $employee = new Employee($conn);
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT');
+header("Content-Type: application/json; charset=UTF-8");
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
     $stmt = get_all();
     get_results($stmt);
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
