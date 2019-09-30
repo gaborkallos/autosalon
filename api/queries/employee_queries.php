@@ -21,14 +21,12 @@ function get_employee($key, $value)
         $query = "SELECT name, username FROM employee
                     WHERE username = '$value[0]' AND password = '$value[1]'";
         $stmt = $conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
     } elseif ($key == "id") {
         $query = "SELECT e.name, e.username, c2.name AS c_name, c2.phone, c2.email FROM employee AS e
                     JOIN customer c2 on e.customer = c2.id 
                     WHERE e.id = '$value';";
         $stmt = $conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
     }
+    $stmt->execute();
+    return $stmt;
 }

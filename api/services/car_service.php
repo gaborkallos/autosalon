@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     if ($json != null) {
-        http_response_code(200);
         $arr = json_decode($json, true);
         foreach ($arr as $key => $value) {
             $stmt = get_cars($key, $value);
@@ -33,7 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $json = file_get_contents('php://input');
     if ($json != null) {
         $car = json_decode($json);
-        insert_car($car);
+        if(!property_exists($car, "id")){
+            insert_car($car);
+        }else{
+            update_car($car);
+        }
         $stmt = get_all();
         get_results($stmt);
     } else {
@@ -42,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $json = file_get_contents('php://input');
+    echo json_encode($json);
     if ($json != null) {
-        http_response_code(200);
         $arr = json_decode($json, true);
         foreach ($arr as $key => $value) {
             delete_car($value);
