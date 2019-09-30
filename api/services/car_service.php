@@ -66,7 +66,6 @@ function get_results($stmt)
 
     if ($number_of_cars > 0) {
         $cars = array();
-//        $cars["records"] = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
